@@ -31,7 +31,7 @@ const transporter = createTransport({
 // POST endpoint to handle booking submission
 app.post('/api/sendEmail', async (req, res) => {
   try {
-    const { checkIn, checkOut, adults, kids, email } = req.body;
+    const { checkIn, checkOut, adults, kids, email, type } = req.body;
 
     // Create email message
     const message = {
@@ -44,6 +44,7 @@ app.post('/api/sendEmail', async (req, res) => {
         Adults: ${adults}
         Kids: ${kids}
         Email: ${email}
+        Type: ${type}
       `,
     };
 
@@ -53,6 +54,32 @@ app.post('/api/sendEmail', async (req, res) => {
   } catch (error) {
     console.error('Error sending email:', error);
     res.status(500).send('Failed to send email');
+  }
+});
+
+// POST endpoint to handle contact form submission
+app.post('/api/sendMessage', async (req, res) => {
+  try {
+    const { name, email, subject, message } = req.body;
+
+    // Create email message
+    const emailMessage = {
+      from: process.env.OUTLOOK_EMAIL, // Sender address
+      to: 'louisjoshbricks@gmail.com', // Replace with your receiving email address
+      subject: `Message from ${email}`,
+      text: `
+        Email: ${email}
+        Subject: ${subject}
+        Message: ${message}
+      `,
+    };
+
+    // Send email
+    await transporter.sendMail(emailMessage);
+    res.status(200).send('Message sent successfully');
+  } catch (error) {
+    console.error('Error sending message:', error);
+    res.status(500).send('Failed to send message');
   }
 });
 
