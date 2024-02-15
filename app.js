@@ -65,7 +65,7 @@ app.post('/api/sendMessage', async (req, res) => {
     // Create email message
     const emailMessage = {
       from: process.env.OUTLOOK_EMAIL, // Sender address
-      to: 'louisjoshbricks@gmail.com', // Replace with your receiving email address
+      to: 'info@penielbeachotel.com', // Replace with your receiving email address
       subject: `Message from ${email}`,
       text: `
         Email: ${email}
