@@ -35,7 +35,7 @@ app.post('/api/sendEmail', async (req, res) => {
 
     // Create email message
     const message = {
-      from: 'penielbeachotel@outlook.com',
+      from: process.env.OUTLOOK_EMAIL,
       to: 'info@penielbeachotel.com', // Email address where the booking information will be sent
       subject: 'Booking Information',
       text: `
