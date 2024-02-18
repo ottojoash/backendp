@@ -36,7 +36,7 @@ app.post('/api/sendEmail', async (req, res) => {
     // Create email message
     const message = {
       from: process.env.OUTLOOK_EMAIL,
-      to: 'info@penielbeachotel.com , louisjoshbricks@gmail.com', // Email address where the booking information will be sent
+      to: 'info@penielbeachotel.com', // Email address where the booking information will be sent
       subject: 'Booking Information',
       text: `
         Check-in: ${checkIn}
@@ -65,7 +65,7 @@ app.post('/api/sendMessage', async (req, res) => {
     // Create email message
     const emailMessage = {
       from: process.env.OUTLOOK_EMAIL, // Sender address
-      to: 'info@penielbeachotel.com , penielbeachhotel@gmail.com', // Replace with your receiving email address
+      to: 'info@penielbeachotel.com', // Replace with your receiving email address
       subject: `Message from ${email}`,
       text: `
         Email: ${email}
