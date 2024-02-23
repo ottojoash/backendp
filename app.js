@@ -31,7 +31,7 @@ const transporter = createTransport({
 // POST endpoint to handle booking submission
 app.post('/api/sendEmail', async (req, res) => {
   try {
-    const { checkIn, checkOut, adults, kids, email, type } = req.body;
+    const { checkIn, checkOut, adults, kids, email, type, notes } = req.body;
 
     // Create email message
     const message = {
@@ -45,6 +45,7 @@ app.post('/api/sendEmail', async (req, res) => {
         Kids: ${kids}
         Email: ${email}
         Type: ${type}
+        Message: ${notes}
       `,
     };
 
