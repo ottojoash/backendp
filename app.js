@@ -31,20 +31,24 @@ const transporter = createTransport({
 // POST endpoint to handle booking submission
 app.post('/api/sendEmail', async (req, res) => {
   try {
-    const { checkIn, checkOut, adults, kids, email, type, notes } = req.body;
+    const { names, checkIn, checkOut, adults, kids, email, type, notes, price } = req.body;
+
 
     // Create email message
     const message = {
       from: process.env.OUTLOOK_EMAIL,
       to: 'info@penielbeachotel.com , penielbeachhotel@gmail.com', // Email address where the booking information will be sent
+      // to: 'louisjoshbricks@gmail.com',
       subject: 'Booking Information',
       text: `
+        Name: ${names}
         Check-in: ${checkIn}
         Check-out: ${checkOut}
         Adults: ${adults}
         Kids: ${kids}
         Email: ${email}
         Type: ${type}
+        Price: ${price}
         Message: ${notes}
       `,
     };
