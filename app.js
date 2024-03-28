@@ -31,13 +31,48 @@ const transporter = createTransport({
 // POST endpoint to handle booking submission
 app.post('/api/sendEmail', async (req, res) => {
   try {
-    const { names, checkIn, checkOut, adults, kids, email, type, notes, price } = req.body;
+    const { transactionId,email, names, checkIn, checkOut, adults, kids, type, notes, price} = req.body;
 
 
     // Create email message
     const message = {
       from: process.env.OUTLOOK_EMAIL,
-      to: 'info@penielbeachotel.com , penielbeachhotel@gmail.com, kabuyerosette@yahoo.co.uk', // Email address where the booking information will be sent
+      to: 'louisjoshbricks@gmail.com',
+      // to: 'penielbeachhotel@gmail.com, kabuyerosette@yahoo.co.uk', // Email address where the booking information will be sent
+      subject: 'Booking Information',
+      text: `
+        TransactionID:${transactionId}
+        Name: ${names}
+        Check-in: ${checkIn}
+        Check-out: ${checkOut}
+        Adults: ${adults}
+        Kids: ${kids}
+        Email: ${email}
+        Type: ${type}
+        Price: ${price}
+        Message: ${notes}
+      `,
+    };
+
+    // Send email
+    await transporter.sendMail(message);
+    res.status(200).send('Email sent successfully');
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).send('Failed to send email');
+  }
+});
+//Post For Reserve
+app.post('/api/sendReserve', async (req, res) => {
+  try {
+    const { email, names, checkIn, checkOut, adults, kids, type, notes, price} = req.body;
+
+
+    // Create email message
+    const message = {
+      from: process.env.OUTLOOK_EMAIL,
+      to: 'louisjoshbricks@gmail.com',
+      // to: 'penielbeachhotel@gmail.com, kabuyerosette@yahoo.co.uk', // Email address where the booking information will be sent
       subject: 'Booking Information',
       text: `
         Name: ${names}
@@ -60,7 +95,6 @@ app.post('/api/sendEmail', async (req, res) => {
     res.status(500).send('Failed to send email');
   }
 });
-
 // POST endpoint to handle contact form submission
 app.post('/api/sendMessage', async (req, res) => {
   try {
@@ -69,7 +103,8 @@ app.post('/api/sendMessage', async (req, res) => {
     // Create email message
     const emailMessage = {
       from: process.env.OUTLOOK_EMAIL, // Sender address
-      to: 'info@penielbeachotel.com , penielbeachhotel@gmail.com, kabuyerosette@yahoo.co.uk', // Replace with your receiving email address
+      to: 'louisjoshbricks@gmail.com',
+      // to: 'penielbeachhotel@gmail.com, kabuyerosette@yahoo.co.uk', // Replace with your receiving email address
       subject: `Message from ${email}`,
       text: `
         Email: ${email}
@@ -95,50 +130,3 @@ app.listen(5000, () => {
   });
   
 
-// const express = require('express');
-// const bodyParser = require('body-parser');
-// const sgMail = require('@sendgrid/mail');
-
-// const app = express();
-// const PORT = process.env.PORT || 3000;
-
-// app.use(bodyParser.json());
-// app.use(cors());
-
-// // Set your SendGrid API key
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-
-// // POST endpoint to handle booking submission
-// app.post('/api/sendEmail', async (req, res) => {
-//   try {
-//     const { checkIn, checkOut, adults, kids, email } = req.body;
-
-//     // Create email message
-//     const msg = {
-//       to: 'ottojoash48@gmail.com',
-//       from: 'ottojoash48@outlook.com', // Your verified email address on SendGrid
-//       subject: 'Booking Information',
-//       text: `
-//         Check-in: ${checkIn}
-//         Check-out: ${checkOut}
-//         Adults: ${adults}
-//         Kids: ${kids}
-//         Email: ${email}
-//       `,
-//     };
-
-//     // Send email
-//     await sgMail.send(msg);
-//     res.status(200).send('Email sent successfully');
-//   } catch (error) {
-//     console.error('Error sending email:', error);
-//     res.status(500).send('Failed to send email');
-//   }
-// });
-
-// // app.listen(PORT, () => {
-// //   console.log(`Server is running on port ${PORT}`);
-// // });
-// app.listen(5000, () => {
-//     console.log('Server is running on port 5000');
-//   });
