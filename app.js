@@ -18,15 +18,24 @@ app.use(bodyParser.json());
 checkEnv(['OUTLOOK_EMAIL', 'OUTLOOK_PASSWORD']);
 // Configure Nodemailer transporter
 // Configuration for NodeMailer transporter
-const transporter = createTransport({
-  host: 'smtp.office365.com',
-  port: 587,
-  secure: false, // true for 465, false for other ports
+// const transporter = createTransport({
+//   host: 'smtp.office365.com',
+//   port: 587,
+//   secure: false, // true for 465, false for other ports
+//   auth: {
+//     user: process.env.OUTLOOK_EMAIL, // Your Outlook email address
+//     pass: process.env.OUTLOOK_PASSWORD // Your Outlook email password
+//   }
+// });
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
   auth: {
-    user: process.env.OUTLOOK_EMAIL, // Your Outlook email address
-    pass: process.env.OUTLOOK_PASSWORD // Your Outlook email password
+    user: process.env.GMAIL_USER,       // Your Gmail address
+    pass: process.env.GMAIL_PASS        // Your Gmail App Password
   }
 });
+
 
 // POST endpoint to handle booking submission
 app.post('/api/sendEmail', async (req, res) => {
@@ -37,7 +46,7 @@ app.post('/api/sendEmail', async (req, res) => {
     // Create email message
     const message = {
       from: process.env.OUTLOOK_EMAIL,
-      to: 'penielbeachhotel@gmail.com', // Email address where the booking information will be sent
+      to: 'penielbeachhotel@gmail.com,kabuyerosette@yahoo.co.uk', // Email address where the booking information will be sent
       subject: 'Booking Information',
       text: `
         Name: ${names}
